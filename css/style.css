@@ -1,0 +1,10 @@
+body{text-align: center;font-family: Verdana,sans-serif;background-color: rgb(228, 222, 222);}
+h1{font-size: 40px;color: blue;margin: 30px 40px;}
+p{font-size: 15px;color: brown;margin-bottom: 10px;}
+span{font-size: 20px;color: crimson;}
+#attemptsNumber{font-size: 25px; color: darkblue;}
+#ImageContanier{border: 1px solid lightgray;width: 70%;height: 200px; margin: 0px auto;margin-top: 30px;}
+img{width: 25%;height: 185px;margin: 0px auto;border-radius: 10px;margin: 5px 10px;}
+button{width: 100px;height: 35px;margin-top: 15px;}
+ul li{color: green;}
+ul li:first-child{margin-top: 20px;}
