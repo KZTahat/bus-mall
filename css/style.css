@@ -8,3 +8,4 @@ img{width: 25%;height: 185px;margin: 0px auto;border-radius: 10px;margin: 5px 10
 button{width: 100px;height: 35px;margin-top: 15px;}
 ul li{color: green;}
 ul li:first-child{margin-top: 20px;}
+#chartContainer{width: 75%;height: 200px;margin: 0px auto;margin-top: 20px;}

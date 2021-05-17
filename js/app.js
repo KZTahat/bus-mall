@@ -2,6 +2,9 @@
 
 let attempts = 0;
 let maxAttempts = 5;
+let ProductsNames = [];
+let numberOfClicks = [];
+let numberOfVeiws = [];
 
 let objectsArray = [];
 function Product(productName) {
@@ -35,6 +38,7 @@ let leftImageIndex;
 let middelImageIndex;
 let rightImageIndex;
 
+let firstIterationIndexes = [];
 // .............................. Image Render Function
 function getThreeImages() {
     leftImageIndex = randomImage();
@@ -45,6 +49,25 @@ function getThreeImages() {
         middelImageIndex = randomImage();
         rightImageIndex = randomImage();
     }
+    if (attempts == 0) {
+        firstIterationIndexes = [leftImageIndex, middelImageIndex, rightImageIndex];
+        console.log(firstIterationIndexes);
+    }
+    if (attempts == 1) {
+        // for (let i = 0; i < firstIterationIndexes.length; i++) {
+        //     if(leftImageIndex===firstIterationIndexes[i]){leftImageIndex=randomImage();}
+        //     if(middelImageIndex===firstIterationIndexes[i]){middelImageIndex=randomImage();}
+        //     if(rightImageIndex===firstIterationIndexes[i]){rightImageIndex=randomImage();}
+        // }
+        while ((leftImageIndex === firstIterationIndexes[0] || leftImageIndex === firstIterationIndexes[1] || leftImageIndex === firstIterationIndexes[2]) || (middelImageIndex === firstIterationIndexes[0] || middelImageIndex === firstIterationIndexes[1] || middelImageIndex === firstIterationIndexes[2]) || (rightImageIndex === firstIterationIndexes[0] || rightImageIndex === firstIterationIndexes[1] || rightImageIndex === firstIterationIndexes[2]) || ((leftImageIndex === middelImageIndex) || (leftImageIndex === rightImageIndex) || (middelImageIndex === rightImageIndex))) {
+            leftImageIndex = randomImage();
+            middelImageIndex = randomImage();
+            rightImageIndex = randomImage();
+        }
+        console.log(leftImageIndex);
+        console.log(middelImageIndex);
+        console.log(rightImageIndex);
+    }
 
     leftImage.setAttribute('src', objectsArray[leftImageIndex].imageSource);
     leftImage.setAttribute('title', objectsArray[leftImageIndex].productName);
@@ -54,15 +77,15 @@ function getThreeImages() {
     middelImage.setAttribute('src', objectsArray[middelImageIndex].imageSource);
     middelImage.setAttribute('tilte', objectsArray[middelImageIndex].productName);
     middelImage.setAttribute('alt', objectsArray[middelImageIndex].productName);
-    objectsArray[middelImageIndex].veiws++; // Incrementing Middel Veiws
+    objectsArray[middelImageIndex].veiws++; // Incrementing Middel Image Veiws
 
     rightImage.setAttribute('src', objectsArray[rightImageIndex].imageSource);
     rightImage.setAttribute('tilte', objectsArray[rightImageIndex].productName);
     rightImage.setAttribute('alt', objectsArray[rightImageIndex].productName);
-    objectsArray[rightImageIndex].veiws++; // Incrementing Right Veiws
+    objectsArray[rightImageIndex].veiws++; // Incrementing Right Image Veiws
 
 }
-getThreeImages();
+getThreeImages();//..Only for First Time Call
 
 // ...........................................Adding Event Listners
 leftImage.addEventListener('click', clicks);
@@ -86,15 +109,56 @@ function clicks(event) {
         rightImage.removeEventListener('click', clicks);
 
         let button = document.getElementById('resultButton');
-        button.addEventListener('click',veiwResults);
-        function veiwResults(event){
+        button.addEventListener('click', veiwResults);
+        function veiwResults(event) {
             for (let i = 0; i < objectsArray.length; i++) {
                 let liElement = document.createElement('li');
                 unorderdList.appendChild(liElement);
                 liElement.textContent = `${objectsArray[i].productName} had ${objectsArray[i].clicks} votes, and was seen ${objectsArray[i].veiws} times.`;
+                numberOfClicks.push(objectsArray[i].clicks);
+                numberOfVeiws.push(objectsArray[i].veiws);
+                ProductsNames.push(objectsArray[i].productName);
             }
-            button.removeEventListener('click',veiwResults);
+            button.removeEventListener('click', veiwResults);
+            getChart();
         }
     }
     getThreeImages();
+}
+function getChart() {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ProductsNames,
+            datasets: [{
+                label: '# of Votes',
+                data: numberOfClicks,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                ],
+                borderWidth: 2
+            }, {
+                label: '# of Veiws',
+                data: numberOfVeiws,
+                backgroundColor: [
+                    'rgba(255, 206, 86, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
