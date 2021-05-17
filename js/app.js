@@ -1,7 +1,7 @@
 'use strict';
 
 let attempts = 0;
-let maxAttempts = 5;
+let maxAttempts = 25;
 let ProductsNames = [];
 let numberOfClicks = [];
 let numberOfVeiws = [];
