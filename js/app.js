@@ -45,29 +45,15 @@ function getThreeImages() {
     middelImageIndex = randomImage();
     rightImageIndex = randomImage();
 
-    while ((leftImageIndex === middelImageIndex) || (leftImageIndex === rightImageIndex) || (middelImageIndex === rightImageIndex)) {
+    while ((leftImageIndex === firstIterationIndexes[0] || leftImageIndex === firstIterationIndexes[1] || leftImageIndex === firstIterationIndexes[2]) || (middelImageIndex === firstIterationIndexes[0] || middelImageIndex === firstIterationIndexes[1] || middelImageIndex === firstIterationIndexes[2]) || (rightImageIndex === firstIterationIndexes[0] || rightImageIndex === firstIterationIndexes[1] || rightImageIndex === firstIterationIndexes[2]) || ((leftImageIndex === middelImageIndex) || (leftImageIndex === rightImageIndex) || (middelImageIndex === rightImageIndex))) {
+        leftImageIndex = randomImage();
         middelImageIndex = randomImage();
         rightImageIndex = randomImage();
     }
-    if (attempts == 0) {
-        firstIterationIndexes = [leftImageIndex, middelImageIndex, rightImageIndex];
-        console.log(firstIterationIndexes);
-    }
-    if (attempts == 1) {
-        // for (let i = 0; i < firstIterationIndexes.length; i++) {
-        //     if(leftImageIndex===firstIterationIndexes[i]){leftImageIndex=randomImage();}
-        //     if(middelImageIndex===firstIterationIndexes[i]){middelImageIndex=randomImage();}
-        //     if(rightImageIndex===firstIterationIndexes[i]){rightImageIndex=randomImage();}
-        // }
-        while ((leftImageIndex === firstIterationIndexes[0] || leftImageIndex === firstIterationIndexes[1] || leftImageIndex === firstIterationIndexes[2]) || (middelImageIndex === firstIterationIndexes[0] || middelImageIndex === firstIterationIndexes[1] || middelImageIndex === firstIterationIndexes[2]) || (rightImageIndex === firstIterationIndexes[0] || rightImageIndex === firstIterationIndexes[1] || rightImageIndex === firstIterationIndexes[2]) || ((leftImageIndex === middelImageIndex) || (leftImageIndex === rightImageIndex) || (middelImageIndex === rightImageIndex))) {
-            leftImageIndex = randomImage();
-            middelImageIndex = randomImage();
-            rightImageIndex = randomImage();
-        }
-        console.log(leftImageIndex);
-        console.log(middelImageIndex);
-        console.log(rightImageIndex);
-    }
+    console.log(leftImageIndex);
+    console.log(middelImageIndex);
+    console.log(rightImageIndex);
+    console.log('previous indexes : ', firstIterationIndexes);
 
     leftImage.setAttribute('src', objectsArray[leftImageIndex].imageSource);
     leftImage.setAttribute('title', objectsArray[leftImageIndex].productName);
@@ -84,6 +70,7 @@ function getThreeImages() {
     rightImage.setAttribute('alt', objectsArray[rightImageIndex].productName);
     objectsArray[rightImageIndex].veiws++; // Incrementing Right Image Veiws
 
+    firstIterationIndexes = [leftImageIndex, middelImageIndex, rightImageIndex];
 }
 getThreeImages();//..Only for First Time Call
 
