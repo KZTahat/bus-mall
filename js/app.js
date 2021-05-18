@@ -5,7 +5,7 @@ let maxAttempts = 20;
 let ProductsNames = [];
 let numberOfClicks = [];
 let numberOfVeiws = [];
-
+let data=0;
 let objectsArray = [];
 function Product(productName) {
     this.productName = productName.split('.')[0];
@@ -78,12 +78,13 @@ gettingItems();
 getThreeImages();//..Only for First Time Call
 
 // .........................setting and getting objects to and from the local storage
-function settingItems(){
-    localStorage.setItem('Product',JSON.stringify(objectsArray));
+function settingItems() {
+    localStorage.setItem('Product', JSON.stringify(objectsArray));
 }
-function gettingItems(){
-    let data = JSON.parse(localStorage.getItem('Product'));
-    if (data) {objectsArray = data;}
+
+function gettingItems() {
+    data = JSON.parse(localStorage.getItem('Product'));
+    if (data) { objectsArray = data; }
 }
 
 // ...........................................Adding Event Listners
@@ -106,23 +107,24 @@ function clicks(event) {
         leftImage.removeEventListener('click', clicks);
         middelImage.removeEventListener('click', clicks);
         rightImage.removeEventListener('click', clicks);
-
-        let button = document.getElementById('resultButton');//creating Results Buttoun with Eventlistener
-        button.addEventListener('click', veiwResults);
-        function veiwResults(event) {
-            for (let i = 0; i < objectsArray.length; i++) {
-                let liElement = document.createElement('li');
-                unorderdList.appendChild(liElement);
-                liElement.textContent = `${objectsArray[i].productName} had ${objectsArray[i].clicks} votes, and was seen ${objectsArray[i].veiws} times.`;
-                numberOfClicks.push(objectsArray[i].clicks);
-                numberOfVeiws.push(objectsArray[i].veiws);
-                ProductsNames.push(objectsArray[i].productName);
-            }
-            getChart();
-            button.removeEventListener('click', veiwResults);// Remove the Event Listener of the Button to  only show the results one time.
-        }
     }
     getThreeImages();// on each click Render new three Images
+}
+if (attempts <= maxAttempts || data) {
+    let button = document.getElementById('resultButton');//creating Results Buttoun with Eventlistener
+    button.addEventListener('click', veiwResults);
+    function veiwResults(event) {
+        for (let i = 0; i < objectsArray.length; i++) {
+            let liElement = document.createElement('li');
+            unorderdList.appendChild(liElement);
+            liElement.textContent = `${objectsArray[i].productName} had ${objectsArray[i].clicks} votes, and was seen ${objectsArray[i].veiws} times.`;
+            numberOfClicks.push(objectsArray[i].clicks);
+            numberOfVeiws.push(objectsArray[i].veiws);
+            ProductsNames.push(objectsArray[i].productName);
+        }
+        getChart();
+        button.removeEventListener('click', veiwResults);// Remove the Event Listener of the Button to  only show the results one time.
+    }
 }
 function getChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
