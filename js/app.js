@@ -128,6 +128,7 @@ if (attempts > maxAttempts || data) {
     }
     getThreeImages();// on each click Render new three Images
 }
+
 function getChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
