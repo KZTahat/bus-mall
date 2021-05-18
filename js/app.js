@@ -1,7 +1,7 @@
 'use strict';
 
 let attempts = 0;
-let maxAttempts = 25;
+let maxAttempts = 20;
 let ProductsNames = [];
 let numberOfClicks = [];
 let numberOfVeiws = [];
@@ -39,6 +39,7 @@ let middelImageIndex;
 let rightImageIndex;
 
 let firstIterationIndexes = [];
+
 // .............................. Image Render Function
 function getThreeImages() {
     leftImageIndex = randomImage();
@@ -61,18 +62,29 @@ function getThreeImages() {
     objectsArray[leftImageIndex].veiws++; // Incrementing Left Image Veiws
 
     middelImage.setAttribute('src', objectsArray[middelImageIndex].imageSource);
-    middelImage.setAttribute('tilte', objectsArray[middelImageIndex].productName);
+    middelImage.setAttribute('title', objectsArray[middelImageIndex].productName);
     middelImage.setAttribute('alt', objectsArray[middelImageIndex].productName);
     objectsArray[middelImageIndex].veiws++; // Incrementing Middel Image Veiws
 
     rightImage.setAttribute('src', objectsArray[rightImageIndex].imageSource);
-    rightImage.setAttribute('tilte', objectsArray[rightImageIndex].productName);
+    rightImage.setAttribute('title', objectsArray[rightImageIndex].productName);
     rightImage.setAttribute('alt', objectsArray[rightImageIndex].productName);
     objectsArray[rightImageIndex].veiws++; // Incrementing Right Image Veiws
 
-    firstIterationIndexes = [leftImageIndex, middelImageIndex, rightImageIndex];
+    firstIterationIndexes = [leftImageIndex, middelImageIndex, rightImageIndex];//to store the current Indexes to use om the next one
+    settingItems();//setting the new Item into the local storage of the browser
 }
+gettingItems();
 getThreeImages();//..Only for First Time Call
+
+// .........................setting and getting objects to and from the local storage
+function settingItems(){
+    localStorage.setItem('Product',JSON.stringify(objectsArray));
+}
+function gettingItems(){
+    let data = JSON.parse(localStorage.getItem('Product'));
+    if (data) {objectsArray = data;}
+}
 
 // ...........................................Adding Event Listners
 leftImage.addEventListener('click', clicks);
@@ -95,7 +107,7 @@ function clicks(event) {
         middelImage.removeEventListener('click', clicks);
         rightImage.removeEventListener('click', clicks);
 
-        let button = document.getElementById('resultButton');
+        let button = document.getElementById('resultButton');//creating Results Buttoun with Eventlistener
         button.addEventListener('click', veiwResults);
         function veiwResults(event) {
             for (let i = 0; i < objectsArray.length; i++) {
@@ -106,11 +118,11 @@ function clicks(event) {
                 numberOfVeiws.push(objectsArray[i].veiws);
                 ProductsNames.push(objectsArray[i].productName);
             }
-            button.removeEventListener('click', veiwResults);
             getChart();
+            button.removeEventListener('click', veiwResults);// Remove the Event Listener of the Button to  only show the results one time.
         }
     }
-    getThreeImages();
+    getThreeImages();// on each click Render new three Images
 }
 function getChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
