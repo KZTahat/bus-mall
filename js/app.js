@@ -126,6 +126,7 @@ if (attempts > maxAttempts || data) {
         getChart();
         button.removeEventListener('click', veiwResults);// Remove the Event Listener of the Button to  only show the results one time.
     }
+    getThreeImages();// on each click Render new three Images
 }
 function getChart() {
     var ctx = document.getElementById('myChart').getContext('2d');
